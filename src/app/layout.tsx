@@ -38,6 +38,7 @@ export default function RootLayout({
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5192301125428658"
           crossOrigin="anonymous"
         ></script>
+        <meta name="google-adsense-account" content="ca-pub-5192301125428658"></meta>
         <meta name="theme-color" content="#ffffff" />
       </head>
       <body className="font-body antialiased flex flex-col min-h-screen">
