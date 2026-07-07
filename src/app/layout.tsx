@@ -4,6 +4,7 @@ import './globals.css';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
 import { Toaster } from "@/components/ui/toaster";
+import { CookieConsent } from '@/components/layout/cookie-consent';
 
 export const metadata: Metadata = {
   title: 'NetStruct - CIDR & Subnet Architect',
@@ -48,6 +49,7 @@ export default function RootLayout({
         </main>
         <Footer />
         <Toaster />
+        <CookieConsent />
       </body>
     </html>
   );

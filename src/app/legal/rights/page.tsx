@@ -1,5 +1,11 @@
 
 import { ShieldAlert } from 'lucide-react';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'NetStruct - Content Rights & Usage Guidelines',
+  description: 'Intellectual property and usage rights governing CIDR calculation tools, network topology articles, and academic/professional distribution.',
+};
 
 export default function RightsPage() {
   return (

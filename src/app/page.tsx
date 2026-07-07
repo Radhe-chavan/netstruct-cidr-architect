@@ -86,6 +86,64 @@ export default function Home() {
         </div>
       </section>
 
+      {/* 📚 Educational Documentation & Subnetting FAQ Section (AdSense Compliance - High Value Written Content) */}
+      <section className="w-full py-12 md:py-16 bg-muted/20 border-t border-b border-border/50">
+        <div className="container px-4 md:px-6 max-w-5xl mx-auto">
+          <div className="space-y-4 mb-10 text-center">
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl font-headline text-primary">
+              Understanding CIDR & Subnetting
+            </h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              A comprehensive technical guide to Classless Inter-Domain Routing and IP address planning.
+            </p>
+          </div>
+
+          <div className="grid gap-8 md:grid-cols-2">
+            <div className="space-y-4">
+              <h3 className="text-xl font-bold text-foreground">What is CIDR?</h3>
+              <p className="text-sm text-foreground/80 leading-relaxed">
+                Classless Inter-Domain Routing (CIDR) was introduced in 1993 by the Internet Engineering Task Force (IETF) to replace the older, highly inefficient class-based addressing architecture (Classes A, B, and C). 
+              </p>
+              <p className="text-sm text-foreground/80 leading-relaxed">
+                By allowing allocation of IP addresses on arbitrary bit boundaries rather than rigid 8, 16, or 24-bit blocks, CIDR greatly slowed down the exhaustion of the IPv4 address space and kept routing tables globally manageable.
+              </p>
+              <h3 className="text-xl font-bold text-foreground pt-2">How Subnet Calculations Work</h3>
+              <p className="text-sm text-foreground/80 leading-relaxed">
+                A CIDR prefix (e.g., <code>/24</code>) represents the number of bits allocated to the network address. The remaining bits (e.g., <code>32 - 24 = 8 bits</code> in IPv4) are allocated to host addresses. 
+              </p>
+              <p className="text-sm text-foreground/80 leading-relaxed">
+                The total number of hosts is calculated as <code>2<sup>H</sup></code> (where <code>H</code> is the number of host bits), and the usable hosts is <code>2<sup>H</sup> - 2</code>, as the first address represents the network identifier and the last address represents the broadcast domain.
+              </p>
+            </div>
+
+            <div className="bg-card p-6 rounded-2xl border border-border/80 shadow-md space-y-6">
+              <h3 className="text-xl font-bold text-foreground text-center border-b border-border/50 pb-2">Common Subnetting FAQ</h3>
+              
+              <div className="space-y-4 text-sm">
+                <div>
+                  <h4 className="font-bold text-primary">Q: What is a Subnet Mask?</h4>
+                  <p className="text-muted-foreground mt-1">
+                    A subnet mask is a 32-bit number that masks an IP address, dividing the IP address into the network address and host address. For example, a <code>/24</code> prefix translates to <code>255.255.255.0</code>.
+                  </p>
+                </div>
+                <div>
+                  <h4 className="font-bold text-primary">Q: Why are two IP addresses subtracted in every subnet?</h4>
+                  <p className="text-muted-foreground mt-1">
+                    The first address in any subnet is reserved as the <strong>Network Address</strong> (e.g., <code>192.168.1.0</code> for a /24), and the last address is reserved as the <strong>Broadcast Address</strong> (e.g., <code>192.168.1.255</code>). Neither can be assigned to a physical host.
+                  </p>
+                </div>
+                <div>
+                  <h4 className="font-bold text-primary">Q: What is a VPC range?</h4>
+                  <p className="text-muted-foreground mt-1">
+                    In cloud services like AWS and Google Cloud, Virtual Private Clouds (VPCs) are typically designed using private IP blocks defined in RFC 1918. Common ranges include <code>10.0.0.0/16</code>, <code>172.16.0.0/12</code>, and <code>192.168.0.0/16</code>.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <div className="w-full max-w-5xl mx-auto px-4 mt-12 mb-20">
         <div id="slot-sidebar-skyscraper" className="min-h-[250px] w-full flex justify-center items-center bg-muted/20 rounded-lg border border-dashed border-border">
           <AdPlaceholder variant="banner" label="Footer Network Architecture Ad" />

@@ -1,5 +1,11 @@
 
 import { ShieldAlert } from 'lucide-react';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'NetStruct - Technical Disclaimer & Terms of Use',
+  description: 'Technical disclaimer regarding calculations, RFC standards compliance, and responsibility of implementer for NetStruct calculator tools.',
+};
 
 export default function DisclaimerPage() {
   return (

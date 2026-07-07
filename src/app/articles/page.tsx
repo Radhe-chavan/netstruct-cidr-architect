@@ -1,8 +1,12 @@
+"use client";
 
+import React, { useState, useMemo } from "react";
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { AdPlaceholder } from "@/components/ad-placeholder";
 import Link from "next/link";
-import { BookOpen } from "lucide-react";
+import { BookOpen, Search, Filter, X } from "lucide-react";
 
 const articles = [
   {
@@ -98,36 +102,130 @@ const articles = [
 ];
 
 export default function ArticlesIndex() {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
+
+  // Dynamically extract unique categories
+  const categories = useMemo(() => {
+    const cats = new Set(articles.map((a) => a.category));
+    return ["All", ...Array.from(cats)];
+  }, []);
+
+  // Filter articles based on search query and category tab
+  const filteredArticles = useMemo(() => {
+    return articles.filter((article) => {
+      const matchesSearch =
+        article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        article.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        article.category.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesCategory =
+        selectedCategory === "All" || article.category === selectedCategory;
+      return matchesSearch && matchesCategory;
+    });
+  }, [searchQuery, selectedCategory]);
+
   return (
     <div className="max-w-6xl mx-auto py-12 px-4">
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold tracking-tight mb-4">Network Knowledge Base</h1>
+        <h1 className="text-4xl font-bold tracking-tight mb-4 font-headline text-primary">Network Knowledge Base</h1>
         <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-          Technical guides and deep dives into networking, subnetting, and infrastructure.
+          Technical guides, RFC-compliant deep dives, and expert network engineering resources.
         </p>
       </div>
 
+      {/* Ad slot for top banner */}
       <AdPlaceholder variant="leaderboard" className="mb-12" />
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {articles.map((article) => (
-          <Link href={`/articles/${article.slug}`} key={article.slug} className="group">
-            <Card className="h-full hover:border-primary transition-colors">
-              <CardHeader>
-                <div className="flex justify-between items-start mb-2">
-                  <span className="text-[10px] uppercase font-bold tracking-wider text-primary bg-primary/10 px-2 py-0.5 rounded">
-                    {article.category}
-                  </span>
-                  <BookOpen className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
-                </div>
-                <CardTitle className="group-hover:text-primary transition-colors">{article.title}</CardTitle>
-                <CardDescription>{article.description}</CardDescription>
-              </CardHeader>
-            </Card>
-          </Link>
-        ))}
+      {/* Search and Category Filters Panel */}
+      <div className="bg-card border border-border p-6 rounded-2xl shadow-md mb-10 space-y-6">
+        <div className="relative flex items-center max-w-lg mx-auto">
+          <Search className="absolute left-3.5 h-5 w-5 text-muted-foreground" />
+          <Input
+            type="text"
+            placeholder="Search guides (e.g. BGP, subnets, VPC)..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="pl-11 pr-10 py-6 text-base rounded-xl border-border/80 focus-visible:ring-primary"
+          />
+          {searchQuery && (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setSearchQuery("")}
+              className="absolute right-2 text-muted-foreground hover:text-foreground"
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          )}
+        </div>
+
+        <div>
+          <div className="flex items-center gap-2 mb-3 text-sm font-semibold text-foreground/80">
+            <Filter className="h-4 w-4 text-primary" />
+            <span>Filter by Category:</span>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {categories.map((category) => (
+              <Button
+                key={category}
+                variant={selectedCategory === category ? "default" : "outline"}
+                size="sm"
+                onClick={() => setSelectedCategory(category)}
+                className="rounded-full px-4 text-xs font-semibold"
+              >
+                {category}
+              </Button>
+            ))}
+          </div>
+        </div>
       </div>
 
+      {/* Article Count */}
+      <div className="flex justify-between items-center mb-6 text-sm text-muted-foreground">
+        <span>Showing {filteredArticles.length} of {articles.length} guides</span>
+        {(searchQuery || selectedCategory !== "All") && (
+          <Button
+            variant="link"
+            onClick={() => {
+              setSearchQuery("");
+              setSelectedCategory("All");
+            }}
+            className="text-primary h-auto p-0"
+          >
+            Clear Filters
+          </Button>
+        )}
+      </div>
+
+      {/* Articles Grid */}
+      {filteredArticles.length > 0 ? (
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {filteredArticles.map((article) => (
+            <Link href={`/articles/${article.slug}`} key={article.slug} className="group">
+              <Card className="h-full hover:border-primary/80 transition-all duration-300 shadow-sm hover:shadow-md transform hover:-translate-y-0.5">
+                <CardHeader>
+                  <div className="flex justify-between items-start mb-2">
+                    <span className="text-[10px] uppercase font-bold tracking-wider text-primary bg-primary/10 px-2.5 py-1 rounded-full">
+                      {article.category}
+                    </span>
+                    <BookOpen className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                  </div>
+                  <CardTitle className="group-hover:text-primary transition-colors text-xl leading-snug">{article.title}</CardTitle>
+                  <CardDescription className="text-foreground/70 mt-2 line-clamp-2">{article.description}</CardDescription>
+                </CardHeader>
+              </Card>
+            </Link>
+          ))}
+        </div>
+      ) : (
+        <div className="text-center py-16 bg-muted/20 border border-dashed border-border rounded-2xl">
+          <BookOpen className="h-12 w-12 text-muted-foreground/60 mx-auto mb-4" />
+          <h3 className="font-bold text-lg">No guides found</h3>
+          <p className="text-muted-foreground text-sm mt-1">Try adjusting your search terms or filters.</p>
+        </div>
+      )}
+
+      {/* Ad slot for bottom banner */}
       <AdPlaceholder variant="banner" className="mt-12" />
     </div>
   );

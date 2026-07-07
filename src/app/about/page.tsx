@@ -1,5 +1,12 @@
 
 import { Network, Server, Globe, Shield, Cpu, Code, Activity } from 'lucide-react';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'NetStruct - Mission & Engineering Excellence',
+  description: 'Learn about NetStruct’s mission, standards of RFC-compliant networking calculations, and cloud VPC optimization tools.',
+  keywords: ['network engineering', 'RFC compliance', 'systems architect', 'subnet planning']
+};
 
 export default function AboutPage() {
   return (
