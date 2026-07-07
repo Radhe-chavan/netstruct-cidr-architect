@@ -33,6 +33,8 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+        {/* ✅ Google Search Console Verification */}
+        <meta name="google-site-verification" content="EzJkp1hmgKrp-rza8QHYotgUQM_lb2KtwMyj0eOgN4I" />
         {/* ✅ Google AdSense script - Using template's approved pattern */}
         <script
           async
